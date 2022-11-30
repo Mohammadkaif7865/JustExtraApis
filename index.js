@@ -20,11 +20,24 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('Express Server default')
 });
+app.get("/getStudents", (req, res) => {
+    db.collection("School").find().toArray((err, result) => {
+        if (err) throw err;
+        res.send(result);
+    })
+})
+app.post('/addStudent', (req, res) => {
+    db.collection('School').insertOne(req.body, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    });
+});
 
 //Connection with db
+// ! JustExtraApiDataBase  School
 MongoClient.connect(mongoUrl, (err, client) => {
     if (err) console.log(`Error While Connecting`);
-    db = client.db('restaurantdata');
+    db = client.db('JustExtraApiDataBase');
     app.listen(port, (err) => {
         if (err) throw err;
         console.log(`Express Server listening on port ${port}`)
