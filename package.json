@@ -4,9 +4,9 @@
   "description": "\"This is the extra apis\"",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js"
-},
+ },
   "author": "monu",
   "license": "ISC",
   "dependencies": {
