@@ -32,17 +32,26 @@ app.post('/addStudent', (req, res) => {
         res.send(result);
     });
 });
-
-//Connection with db
-// ! JustExtraApiDataBase  School
-MongoClient.connect(mongoUrl, (err, client) => {
-    if (err) console.log(`Error While Connecting`);
-    db = client.db('JustExtraApiDataBase');
-    app.listen(port, (err) => {
+app.put('/changeFeestatus/:id', (req, res) => {
+    db.collection('School').updateOne({ schoolCode: req.params.id }, {
+        $set: {
+            "feesPaid" : req.body
+        }
+    }, (err, result) => {
         if (err) throw err;
-        console.log(`Express Server listening on port ${port}`)
+        res.send(result);
     });
 });
+    //Connection with db
+    // ! JustExtraApiDataBase  School
+    MongoClient.connect(mongoUrl, (err, client) => {
+        if (err) console.log(`Error While Connecting`);
+        db = client.db('JustExtraApiDataBase');
+        app.listen(port, (err) => {
+            if (err) throw err;
+            console.log(`Express Server listening on port ${port}`)
+        });
+    });
 
 
 /*
