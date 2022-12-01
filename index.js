@@ -35,7 +35,7 @@ app.post('/addStudent', (req, res) => {
 app.put('/changeFeestatus/:id', (req, res) => {
     db.collection('School').updateOne({ schoolCode: req.params.id }, {
         $set: {
-            "feesPaid" : req.body
+            "feesPaid" : req.body.feestatus
         }
     }, (err, result) => {
         if (err) throw err;
