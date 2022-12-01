@@ -35,23 +35,23 @@ app.post('/addStudent', (req, res) => {
 app.put('/changeFeestatus/:id', (req, res) => {
     db.collection('School').updateOne({ schoolCode: req.params.id }, {
         $set: {
-            "feesPaid": { $not: "$feesPaid" }
+            "feesPaid" : req.body.feestatus
         }
     }, (err, result) => {
         if (err) throw err;
         res.send(result);
     });
 });
-//Connection with db
-// ! JustExtraApiDataBase  School
-MongoClient.connect(mongoUrl, (err, client) => {
-    if (err) console.log(`Error While Connecting`);
-    db = client.db('JustExtraApiDataBase');
-    app.listen(port, (err) => {
-        if (err) throw err;
-        console.log(`Express Server listening on port ${port}`)
+    //Connection with db
+    // ! JustExtraApiDataBase  School
+    MongoClient.connect(mongoUrl, (err, client) => {
+        if (err) console.log(`Error While Connecting`);
+        db = client.db('JustExtraApiDataBase');
+        app.listen(port, (err) => {
+            if (err) throw err;
+            console.log(`Express Server listening on port ${port}`)
+        });
     });
-});
 
 
 /*
