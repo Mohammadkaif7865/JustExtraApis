@@ -32,6 +32,12 @@ app.post('/addStudent', (req, res) => {
         res.send(result);
     });
 });
+app.delete('/deleteStudent/:id', (req, res) =>{
+   db.collection('School').remove({schoolCode: req.params.id}, (err, result) =>{
+    if(err) throw err;
+    res.send(result);
+   })
+})
 app.put('/changeFeestatus/:id', (req, res) => {
     db.collection('School').updateOne({ schoolCode: req.params.id }, {
         $set: {
