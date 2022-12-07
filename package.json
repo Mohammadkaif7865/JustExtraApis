@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "\"This is the extra apis\"",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
- },
+  },
   "author": "monu",
   "license": "ISC",
   "dependencies": {
@@ -15,6 +16,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongo": "^0.1.0",
+    "node-fetch": "^3.3.0",
     "nodemon": "^2.0.20"
   }
 }

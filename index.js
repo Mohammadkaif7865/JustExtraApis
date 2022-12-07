@@ -1,15 +1,20 @@
-let express = require('express');
-let app = express();
-let bodyParser = require('body-parser');
-let cors = require('cors');
-let dotenv = require('dotenv');
-dotenv.config();
+import fetch from "node-fetch";
+import express from 'express';
+let app = express()
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config()
 let port = process.env.PORT || 9870;
-let mongo = require('mongodb');
+import mongo from 'mongodb';
 let MongoClient = mongo.MongoClient;
 //let mongoUrl = process.env.MongoUrl;
 let mongoUrl = process.env.MongoLiveUrl;
 let db;
+const url = 'https://jsonplaceholder.typicode.com/users';
+const data = fetch(url, {
+    method: 'GET',
+}).then((response) => response.json()).then((json) => console.log(json));
 
 //middleware (supporting lib)
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +23,10 @@ app.use(cors());
 // app.use(express.json());
 // 1.D
 app.get('/', (req, res) => {
-    res.send('Express Server default')
+    res.send('Express Server default');
+});
+app.get('/users', (req, res) => {
+    res.send(data);
 });
 app.get("/getStudents", (req, res) => {
     db.collection("School").find().toArray((err, result) => {
@@ -32,32 +40,32 @@ app.post('/addStudent', (req, res) => {
         res.send(result);
     });
 });
-app.delete('/deleteStudent/:id', (req, res) =>{
-   db.collection('School').remove({schoolCode: req.params.id}, (err, result) =>{
-    if(err) throw err;
-    res.send(result);
-   })
+app.delete('/deleteStudent/:id', (req, res) => {
+    db.collection('School').remove({ schoolCode: req.params.id }, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    })
 })
 app.put('/changeFeestatus/:id', (req, res) => {
     db.collection('School').updateOne({ schoolCode: req.params.id }, {
         $set: {
-            "feesPaid" : req.body.feestatus
+            "feesPaid": req.body.feestatus
         }
     }, (err, result) => {
         if (err) throw err;
         res.send(result);
     });
 });
-    //Connection with db
-    // ! JustExtraApiDataBase  School
-    MongoClient.connect(mongoUrl, (err, client) => {
-        if (err) console.log(`Error While Connecting`);
-        db = client.db('JustExtraApiDataBase');
-        app.listen(port, (err) => {
-            if (err) throw err;
-            console.log(`Express Server listening on port ${port}`)
-        });
+//Connection with db
+// ! JustExtraApiDataBase  School
+MongoClient.connect(mongoUrl, (err, client) => {
+    if (err) console.log(`Error While Connecting`);
+    db = client.db('JustExtraApiDataBase');
+    app.listen(port, (err) => {
+        if (err) throw err;
+        console.log(`Express Server listening on port ${port}`)
     });
+});
 
 
 /*
