@@ -12,9 +12,6 @@ let MongoClient = mongo.MongoClient;
 let mongoUrl = process.env.MongoLiveUrl;
 let db;
 const url = 'https://jsonplaceholder.typicode.com/users';
-const data = fetch(url, {
-    method: 'GET',
-}).then((response) => response.json()).then((json) => console.log(json));
 
 //middleware (supporting lib)
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +23,10 @@ app.get('/', (req, res) => {
     res.send('Express Server default');
 });
 app.get('/users', (req, res) => {
-    res.send(data);
+
+    fetch(url, {
+        method: 'GET',
+    }).then((response) => response.json()).then((json) =>res.send(json));
 });
 app.get("/getStudents", (req, res) => {
     db.collection("School").find().toArray((err, result) => {
