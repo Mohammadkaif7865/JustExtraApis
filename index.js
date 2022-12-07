@@ -22,6 +22,7 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('Express Server default');
 });
+// ! Here i have consume your url
 app.get('/users', (req, res) => {
 
     fetch(url, {
